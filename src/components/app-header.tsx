@@ -23,9 +23,9 @@ export function AppHeader() {
     <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6">
       <Link
         href="/"
-        className="flex items-center gap-2 text-2xl font-semibold font-headline text-accent"
+        className="flex items-center gap-2 text-2xl font-semibold font-headline text-primary"
       >
-        <Landmark className="h-7 w-7" />
+        <Landmark className="h-7 w-7 text-secondary" />
         <h1>Guia INSS</h1>
       </Link>
       <nav className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export function AppHeader() {
                   className={cn(
                     'flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8',
                     pathname === item.href
-                      ? 'bg-accent text-accent-foreground'
+                      ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:text-foreground'
                   )}
                 >

@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Check, Copy, ListChecks, FileText } from 'lucide-react';
+import { Check, Copy, ListChecks, FileText, User, FileDigit, Briefcase, Info } from 'lucide-react';
 
 import { getBenefitSteps } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -156,7 +156,10 @@ export function BenefitRequestForm() {
                     <FormItem>
                       <FormLabel>Nome Completo</FormLabel>
                       <FormControl>
-                        <Input placeholder="Seu nome completo" {...field} />
+                        <div className="relative">
+                           <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                           <Input placeholder="Seu nome completo" {...field} className="pl-10" />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -169,7 +172,10 @@ export function BenefitRequestForm() {
                     <FormItem>
                       <FormLabel>CPF</FormLabel>
                       <FormControl>
-                        <Input placeholder="Apenas números" {...field} />
+                        <div className="relative">
+                          <FileDigit className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input placeholder="Apenas números" {...field} className="pl-10"/>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -183,10 +189,14 @@ export function BenefitRequestForm() {
                   <FormItem>
                     <FormLabel>Benefício Desejado</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Ex: Aposentadoria por idade, Auxílio-doença..."
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Ex: Aposentadoria por idade, Auxílio-doença..."
+                          {...field}
+                          className="pl-10"
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -198,13 +208,16 @@ export function BenefitRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Informações Adicionais (Opcional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Descreva qualquer detalhe que possa ser útil."
-                        className="min-h-[100px] resize-y"
-                        {...field}
-                      />
-                    </FormControl>
+                     <FormControl>
+                        <div className="relative">
+                          <Info className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Textarea
+                            placeholder="Descreva qualquer detalhe que possa ser útil."
+                            className="min-h-[100px] resize-y pl-10"
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

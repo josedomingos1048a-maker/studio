@@ -10,7 +10,7 @@ export default function ChatPage() {
         <div className="mx-auto grid w-full max-w-4xl gap-8">
           <div className="text-center space-y-2">
             <div className="inline-block rounded-lg bg-muted p-3">
-              <MessageCircle className="h-8 w-8 text-accent" />
+              <MessageCircle className="h-8 w-8 text-primary" />
             </div>
             <h2 className="text-3xl font-bold tracking-tighter font-headline text-foreground sm:text-4xl md:text-5xl">
               Tire suas dúvidas sobre o INSS

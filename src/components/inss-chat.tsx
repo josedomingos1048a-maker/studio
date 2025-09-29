@@ -82,7 +82,7 @@ export function InssChat() {
             )}
           >
             {message.role === 'bot' && (
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground shrink-0">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
                 <Bot className="h-5 w-5" />
               </div>
             )}
@@ -105,7 +105,7 @@ export function InssChat() {
         ))}
         {isPending && (
           <div className="flex items-start gap-3 justify-start">
-             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground shrink-0">
+             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
                 <Bot className="h-5 w-5" />
               </div>
             <div className='bg-muted rounded-lg p-3'>
