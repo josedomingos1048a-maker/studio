@@ -49,7 +49,7 @@ function StepCard({ step, index }: { step: string; index: number }) {
   return (
     <Card className="bg-card/50">
       <CardHeader className="flex-row items-start gap-4 space-y-0">
-        <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+        <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary shrink-0">
           <div className="text-xl font-bold">{index + 1}</div>
         </div>
         <div className="flex-1">
@@ -240,17 +240,20 @@ export function BenefitRequestForm() {
         </CardContent>
       </Card>
 
-      <div className="space-y-4">
-        <h3 className="font-headline text-2xl font-semibold">
-          Seu Passo a Passo Personalizado
-        </h3>
-        {isPending ? (
-          <LoadingSkeleton />
-        ) : steps.length > 0 ? (
+      {steps.length > 0 || isPending ? (
           <div className="space-y-4">
-            {steps.map((step, index) => (
-              <StepCard key={index} step={step} index={index} />
-            ))}
+            <h3 className="font-headline text-2xl font-semibold">
+              Seu Passo a Passo Personalizado
+            </h3>
+            {isPending ? (
+              <LoadingSkeleton />
+            ) : (
+              <div className="space-y-4">
+                {steps.map((step, index) => (
+                  <StepCard key={index} step={step} index={index} />
+                ))}
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
@@ -258,7 +261,6 @@ export function BenefitRequestForm() {
             <p className="mt-4">Os passos para sua solicitação aparecerão aqui.</p>
           </div>
         )}
-      </div>
     </div>
   );
 }
