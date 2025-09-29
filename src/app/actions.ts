@@ -3,7 +3,7 @@
 import {
   generateBenefitSteps,
   type GenerateBenefitStepsInput,
-} from '@/ai/flows/generate-bypass-techniques';
+} from '@/ai/flows/generate-benefit-steps';
 import { z } from 'zod';
 
 const formSchema = z.object({

@@ -17,7 +17,9 @@ import {z} from 'genkit';
 // Define the input schema
 const GenerateBenefitStepsInputSchema = z.object({
   fullName: z.string().describe('The user’s full name.'),
-  cpf: z.string().describe('The user’s CPF (Brazilian individual taxpayer registry).'),
+  cpf: z
+    .string()
+    .describe('The user’s CPF (Brazilian individual taxpayer registry).'),
   benefitType: z
     .string()
     .describe('The type of benefit the user wants to request.'),
@@ -51,6 +53,26 @@ const generateBenefitStepsPrompt = ai.definePrompt({
   name: 'generateBenefitStepsPrompt',
   input: {schema: GenerateBenefitStepsInputSchema},
   output: {schema: GenerateBenefitStepsOutputSchema},
+  config: {
+    safetySettings: [
+      {
+        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+        threshold: 'BLOCK_NONE',
+      },
+      {
+        category: 'HARM_CATEGORY_HATE_SPEECH',
+        threshold: 'BLOCK_ONLY_HIGH',
+      },
+      {
+        category: 'HARM_CATEGORY_HARASSMENT',
+        threshold: 'BLOCK_ONLY_HIGH',
+      },
+      {
+        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+        threshold: 'BLOCK_ONLY_HIGH',
+      },
+    ],
+  },
   prompt: `Você é um especialista em benefícios do INSS. Com base nas informações do usuário, gere um passo a passo claro e simples para solicitar o benefício desejado.
 
 Nome Completo: {{{fullName}}}
