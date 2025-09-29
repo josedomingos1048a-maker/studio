@@ -1,71 +1,75 @@
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow for generating sandbox bypass techniques tailored to a specific environment and user objectives.
+ * @fileOverview This file defines a Genkit flow for generating the steps to request a social security benefit.
  *
  * @remarks
- * The flow takes environment details and user objectives as input and returns a list of bypass techniques.
+ * The flow takes user information and returns a list of steps.
  *
- * @exports generateBypassTechniques - The main function to trigger the bypass technique generation flow.
- * @exports GenerateBypassTechniquesInput - The input type for the generateBypassTechniques function.
- * @exports GenerateBypassTechniquesOutput - The output type for the generateBypassTechniques function.
+ * @exports generateBenefitSteps - The main function to trigger the benefit steps generation flow.
+ * @exports GenerateBenefitStepsInput - The input type for the generateBenefitSteps function.
+ * @exports GenerateBenefitStepsOutput - The output type for the generateBenefitSteps function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 // Define the input schema
-const GenerateBypassTechniquesInputSchema = z.object({
-  environmentDetails: z
+const GenerateBenefitStepsInputSchema = z.object({
+  fullName: z.string().describe('The user’s full name.'),
+  cpf: z.string().describe('The user’s CPF (Brazilian individual taxpayer registry).'),
+  benefitType: z
     .string()
-    .describe('Detailed information about the sandbox environment.'),
-  userObjectives: z
+    .describe('The type of benefit the user wants to request.'),
+  additionalInfo: z
     .string()
-    .describe('The user’s specific objectives for bypassing the sandbox.'),
+    .describe('Any additional information or context provided by the user.'),
 });
-export type GenerateBypassTechniquesInput = z.infer<
-  typeof GenerateBypassTechniquesInputSchema
+export type GenerateBenefitStepsInput = z.infer<
+  typeof GenerateBenefitStepsInputSchema
 >;
 
 // Define the output schema
-const GenerateBypassTechniquesOutputSchema = z.object({
-  bypassTechniques: z
+const GenerateBenefitStepsOutputSchema = z.object({
+  steps: z
     .array(z.string())
-    .describe('A list of suggested sandbox bypass techniques.'),
+    .describe('A list of suggested steps to request the benefit.'),
 });
-export type GenerateBypassTechniquesOutput = z.infer<
-  typeof GenerateBypassTechniquesOutputSchema
+export type GenerateBenefitStepsOutput = z.infer<
+  typeof GenerateBenefitStepsOutputSchema
 >;
 
 // Define the main function to trigger the flow
-export async function generateBypassTechniques(
-  input: GenerateBypassTechniquesInput
-): Promise<GenerateBypassTechniquesOutput> {
-  return generateBypassTechniquesFlow(input);
+export async function generateBenefitSteps(
+  input: GenerateBenefitStepsInput
+): Promise<GenerateBenefitStepsOutput> {
+  return generateBenefitStepsFlow(input);
 }
 
 // Define the prompt
-const generateBypassTechniquesPrompt = ai.definePrompt({
-  name: 'generateBypassTechniquesPrompt',
-  input: {schema: GenerateBypassTechniquesInputSchema},
-  output: {schema: GenerateBypassTechniquesOutputSchema},
-  prompt: `You are an expert in cybersecurity and sandbox evasion techniques. Based on the provided environment details and user objectives, generate a list of potential sandbox bypass techniques.
+const generateBenefitStepsPrompt = ai.definePrompt({
+  name: 'generateBenefitStepsPrompt',
+  input: {schema: GenerateBenefitStepsInputSchema},
+  output: {schema: GenerateBenefitStepsOutputSchema},
+  prompt: `Você é um especialista em benefícios do INSS. Com base nas informações do usuário, gere um passo a passo claro e simples para solicitar o benefício desejado.
 
-Environment Details: {{{environmentDetails}}}
-User Objectives: {{{userObjectives}}}
+Nome Completo: {{{fullName}}}
+CPF: {{{cpf}}}
+Tipo de Benefício: {{{benefitType}}}
+Informações Adicionais: {{{additionalInfo}}}
 
-Bypass Techniques:`,
+Passos para Solicitação:`,
 });
 
 // Define the flow
-const generateBypassTechniquesFlow = ai.defineFlow(
+const generateBenefitStepsFlow = ai.defineFlow(
   {
-    name: 'generateBypassTechniquesFlow',
-    inputSchema: GenerateBypassTechniquesInputSchema,
-    outputSchema: GenerateBypassTechniquesOutputSchema,
+    name: 'generateBenefitStepsFlow',
+    inputSchema: GenerateBenefitStepsInputSchema,
+    outputSchema: GenerateBenefitStepsOutputSchema,
   },
   async input => {
-    const {output} = await generateBypassTechniquesPrompt(input);
+    const {output} = await generateBenefitStepsPrompt(input);
     return output!;
   }
 );

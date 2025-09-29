@@ -1,22 +1,19 @@
-
 'use server';
 
 import {
-  generateBypassTechniques,
-  type GenerateBypassTechniquesInput,
+  generateBenefitSteps,
+  type GenerateBenefitStepsInput,
 } from '@/ai/flows/generate-bypass-techniques';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  environmentDetails: z
-    .string()
-    .min(10, { message: 'Please provide more details about the environment.' }),
-  userObjectives: z
-    .string()
-    .min(10, { message: 'Please provide more details about your objectives.' }),
+  fullName: z.string().min(3, { message: 'Por favor, insira o nome completo.' }),
+  cpf: z.string().length(11, { message: 'O CPF deve ter 11 dígitos.' }),
+  benefitType: z.string().min(5, { message: 'Por favor, descreva o benefício.' }),
+  additionalInfo: z.string().optional(),
 });
 
-export async function getBypassTechniques(
+export async function getBenefitSteps(
   values: z.infer<typeof formSchema>
 ): Promise<{ success: boolean; data: string[] | null; error: string | null }> {
   const validatedFields = formSchema.safeParse(values);
@@ -29,16 +26,16 @@ export async function getBypassTechniques(
   }
 
   try {
-    const result = await generateBypassTechniques(
-      validatedFields.data as GenerateBypassTechniquesInput
+    const result = await generateBenefitSteps(
+      validatedFields.data as GenerateBenefitStepsInput
     );
-    return { success: true, data: result.bypassTechniques, error: null };
+    return { success: true, data: result.steps, error: null };
   } catch (error) {
     console.error(error);
     return {
       success: false,
       data: null,
-      error: 'AI generation failed. Please check your setup and try again.',
+      error: 'Falha ao gerar os passos. Por favor, tente novamente.',
     };
   }
 }
