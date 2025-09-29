@@ -26,7 +26,7 @@ export function AppHeader() {
         className="flex items-center gap-2 text-2xl font-semibold font-headline text-primary"
       >
         <Landmark className="h-7 w-7 text-secondary" />
-        <h1>Guia INSS</h1>
+        <h1>Simplifica INSS</h1>
       </Link>
       <nav className="flex items-center gap-2">
         <TooltipProvider>

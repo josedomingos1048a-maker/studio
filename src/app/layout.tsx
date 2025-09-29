@@ -15,7 +15,7 @@ const fontHeadline = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Guia INSS',
+  title: 'Simplifica INSS',
   description: 'Um assistente para ajudar na solicitação de benefícios do INSS.',
 };
 
