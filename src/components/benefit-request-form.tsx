@@ -36,15 +36,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import type { GenerateBenefitStepsOutput } from '@/ai/flows/generate-benefit-steps';
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome deve ter pelo menos 3 caracteres.' }),
-  cpf: z.string().min(11, { message: 'O CPF deve ter pelo menos 11 dígitos.' }),
+  cpf: z.string().min(1, { message: 'O CPF não pode estar em branco.' }),
   benefitType: z.string().min(5, { message: 'Deve ter pelo menos 5 caracteres.' }),
   additionalInfo: z.string().optional(),
 });
 
-function StepCard({ step, index }: { step: string; index: number }) {
+type Step = GenerateBenefitStepsOutput['steps'][0];
+
+function StepCard({ step, index }: { step: Step; index: number }) {
   const { copied, copy } = useCopyToClipboard();
   return (
     <Card className="bg-card/50">
@@ -52,8 +55,11 @@ function StepCard({ step, index }: { step: string; index: number }) {
         <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary shrink-0">
           <div className="text-xl font-bold">{index + 1}</div>
         </div>
-        <div className="flex-1">
-          <CardTitle className="text-base font-medium">{step}</CardTitle>
+        <div className="flex-1 space-y-1.5">
+          <CardTitle className="text-lg font-headline">{step.title}</CardTitle>
+          <CardDescription className="whitespace-pre-wrap text-foreground">
+            {step.description}
+          </CardDescription>
         </div>
         <TooltipProvider>
           <Tooltip>
@@ -62,7 +68,7 @@ function StepCard({ step, index }: { step: string; index: number }) {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 shrink-0"
-                onClick={() => copy(step)}
+                onClick={() => copy(`${step.title}\n\n${step.description}`)}
               >
                 {copied ? (
                   <Check className="h-4 w-4 text-green-500" />
@@ -86,10 +92,12 @@ function LoadingSkeleton() {
     <div className="space-y-4">
       {[...Array(3)].map((_, i) => (
         <Card key={i}>
-          <CardHeader className="flex-row items-center gap-4 space-y-0">
+          <CardHeader className="flex-row items-start gap-4 space-y-0">
             <Skeleton className="h-10 w-10 rounded-lg" />
             <div className="flex-1 space-y-2">
-              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-5 w-1/3" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-4/5" />
             </div>
             <Skeleton className="h-8 w-8" />
           </CardHeader>
@@ -101,7 +109,7 @@ function LoadingSkeleton() {
 
 export function BenefitRequestForm() {
   const [isPending, startTransition] = useTransition();
-  const [steps, setSteps] = useState<string[]>([]);
+  const [steps, setSteps] = useState<Step[]>([]);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({

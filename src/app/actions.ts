@@ -2,6 +2,7 @@
 
 import {
   generateBenefitSteps,
+  type GenerateBenefitStepsOutput,
   type GenerateBenefitStepsInput,
 } from '@/ai/flows/generate-benefit-steps';
 import {
@@ -12,14 +13,14 @@ import { z } from 'zod';
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'Por favor, insira o nome completo.' }),
-  cpf: z.string().min(11, { message: 'O CPF deve ter pelo menos 11 dígitos.' }),
+  cpf: z.string().min(1, { message: 'O CPF não pode estar em branco.' }),
   benefitType: z.string().min(5, { message: 'Por favor, descreva o benefício.' }),
   additionalInfo: z.string().optional(),
 });
 
 export async function getBenefitSteps(
   values: z.infer<typeof formSchema>
-): Promise<{ success: boolean; data: string[] | null; error: string | null }> {
+): Promise<{ success: boolean; data: GenerateBenefitStepsOutput['steps'] | null; error: string | null }> {
   const validatedFields = formSchema.safeParse(values);
 
   if (!validatedFields.success) {

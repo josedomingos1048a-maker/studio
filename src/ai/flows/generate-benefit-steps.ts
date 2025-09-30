@@ -31,11 +31,20 @@ export type GenerateBenefitStepsInput = z.infer<
   typeof GenerateBenefitStepsInputSchema
 >;
 
+const StepSchema = z.object({
+  title: z.string().describe('A short, clear title for the step.'),
+  description: z
+    .string()
+    .describe(
+      'A detailed, user-friendly description of the step, including necessary documents, where to perform the action, and important tips.'
+    ),
+});
+
 // Define the output schema
 const GenerateBenefitStepsOutputSchema = z.object({
   steps: z
-    .array(z.string())
-    .describe('A list of suggested steps to request the benefit.'),
+    .array(StepSchema)
+    .describe('A list of structured steps to request the benefit.'),
 });
 export type GenerateBenefitStepsOutput = z.infer<
   typeof GenerateBenefitStepsOutputSchema
@@ -75,7 +84,10 @@ const generateBenefitStepsPrompt = ai.definePrompt({
   },
   prompt: `Você é um especialista em benefícios do INSS e seu objetivo é fornecer um guia detalhado e completo para o usuário. Com base nas informações fornecidas, gere um passo a passo 100% informativo para solicitar o benefício desejado.
 
-Para cada passo, inclua:
+Para cada passo, gere um título (title) e uma descrição (description).
+
+O título deve ser uma ação curta e objetiva.
+A descrição deve incluir:
 1.  Ação clara e objetiva a ser tomada.
 2.  Documentos necessários para essa etapa específica.
 3.  Onde a ação deve ser realizada (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS).
