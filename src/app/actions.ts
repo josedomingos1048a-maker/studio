@@ -13,7 +13,7 @@ import { z } from 'zod';
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'Por favor, insira o nome completo.' }),
-  cpf: z.string().min(1, { message: 'O CPF não pode estar em branco.' }),
+  cpf: z.string().length(14, { message: 'O CPF deve ter o formato 000.000.000-00.' }),
   benefitType: z.string().min(5, { message: 'Por favor, descreva o benefício.' }),
   additionalInfo: z.string().optional(),
 });

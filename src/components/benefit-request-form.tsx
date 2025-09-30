@@ -40,7 +40,7 @@ import type { GenerateBenefitStepsOutput } from '@/ai/flows/generate-benefit-ste
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome deve ter pelo menos 3 caracteres.' }),
-  cpf: z.string().min(1, { message: 'O CPF não pode estar em branco.' }),
+  cpf: z.string().length(14, { message: 'O CPF deve ter 11 dígitos.' }),
   benefitType: z.string().min(5, { message: 'Deve ter pelo menos 5 caracteres.' }),
   additionalInfo: z.string().optional(),
 });
@@ -142,6 +142,23 @@ export function BenefitRequestForm() {
     });
   };
 
+  const formatCpf = (value: string) => {
+    const cleanedValue = value.replace(/\D/g, '');
+    let formattedValue = cleanedValue;
+
+    if (cleanedValue.length > 3) {
+      formattedValue = `${cleanedValue.slice(0, 3)}.${cleanedValue.slice(3)}`;
+    }
+    if (cleanedValue.length > 6) {
+      formattedValue = `${formattedValue.slice(0, 7)}.${cleanedValue.slice(7)}`;
+    }
+    if (cleanedValue.length > 9) {
+      formattedValue = `${formattedValue.slice(0, 11)}-${cleanedValue.slice(11)}`;
+    }
+    
+    return formattedValue.slice(0, 14);
+  };
+
   return (
     <div className="space-y-8">
       <Card>
@@ -182,7 +199,14 @@ export function BenefitRequestForm() {
                       <FormControl>
                         <div className="relative">
                           <FileDigit className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Apenas números" {...field} className="pl-10"/>
+                          <Input 
+                            placeholder="000.000.000-00" 
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(formatCpf(e.target.value));
+                            }}
+                            className="pl-10"
+                          />
                         </div>
                       </FormControl>
                       <FormMessage />
