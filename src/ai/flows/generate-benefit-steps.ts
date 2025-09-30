@@ -73,14 +73,23 @@ const generateBenefitStepsPrompt = ai.definePrompt({
       },
     ],
   },
-  prompt: `Você é um especialista em benefícios do INSS. Com base nas informações do usuário, gere um passo a passo claro e simples para solicitar o benefício desejado.
+  prompt: `Você é um especialista em benefícios do INSS e seu objetivo é fornecer um guia detalhado e completo para o usuário. Com base nas informações fornecidas, gere um passo a passo 100% informativo para solicitar o benefício desejado.
 
+Para cada passo, inclua:
+1.  Ação clara e objetiva a ser tomada.
+2.  Documentos necessários para essa etapa específica.
+3.  Onde a ação deve ser realizada (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS).
+4.  Dicas importantes ou o que esperar após a conclusão do passo.
+
+Seja extremamente claro, organizado e use uma linguagem fácil de entender.
+
+Dados do Usuário:
 Nome Completo: {{{fullName}}}
 CPF: {{{cpf}}}
 Tipo de Benefício: {{{benefitType}}}
 Informações Adicionais: {{{additionalInfo}}}
 
-Passos para Solicitação:`,
+Gere os passos para a solicitação do benefício:`,
 });
 
 // Define the flow
