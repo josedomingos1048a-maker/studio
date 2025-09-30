@@ -88,10 +88,10 @@ Para cada passo, gere um título (title) e uma descrição (description).
 
 O título deve ser uma ação curta e objetiva.
 A descrição deve incluir:
-1.  Ação clara e objetiva a ser tomada.
-2.  Documentos necessários para essa etapa específica.
-3.  Onde a ação deve ser realizada (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS).
-4.  Dicas importantes ou o que esperar após a conclusão do passo.
+1.  **Ação clara e objetiva a ser tomada.**
+2.  **Documentos necessários** para essa etapa específica.
+3.  **Onde a ação deve ser realizada** (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS).
+4.  **Dicas importantes** ou o que esperar após a conclusão do passo.
 
 Seja extremamente claro, organizado e use uma linguagem fácil de entender.
 
