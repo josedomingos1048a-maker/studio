@@ -3,8 +3,8 @@
     {
       "id": "benefit-request-hero",
       "description": "Image for the benefit request form hero section",
-      "imageUrl": "https://images.unsplash.com/photo-1628665843485-547b1449ac8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkb2N1bWVudG9zJTIwZ292ZXJub3xlbnwwfHx8fDE3NTkxODQyNzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "documentos governo"
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/yulacesso.appspot.com/o/Screenshot_20250930-070813_(1)_(1).png?alt=media&token=d2815605-ff33-4c40-a04c-e76350e88ef4",
+      "imageHint": "app screenshot"
     }
   ]
 }
