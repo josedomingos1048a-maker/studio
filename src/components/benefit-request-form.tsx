@@ -40,7 +40,7 @@ import type { GenerateBenefitStepsOutput } from '@/ai/flows/generate-benefit-ste
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome deve ter pelo menos 3 caracteres.' }),
-  cpf: z.string().length(14, { message: 'O CPF deve ter 11 dígitos.' }),
+  cpf: z.string().length(14, { message: 'O CPF deve ter o formato 000.000.000-00.' }),
   benefitType: z.string().min(5, { message: 'Deve ter pelo menos 5 caracteres.' }),
   additionalInfo: z.string().optional(),
 });
@@ -143,21 +143,14 @@ export function BenefitRequestForm() {
   };
 
   const formatCpf = (value: string) => {
-    const cleanedValue = value.replace(/\D/g, '');
-    let formattedValue = cleanedValue;
-
-    if (cleanedValue.length > 3) {
-      formattedValue = `${cleanedValue.slice(0, 3)}.${cleanedValue.slice(3)}`;
-    }
-    if (cleanedValue.length > 6) {
-      formattedValue = `${formattedValue.slice(0, 7)}.${cleanedValue.slice(7)}`;
-    }
-    if (cleanedValue.length > 9) {
-      formattedValue = `${formattedValue.slice(0, 11)}-${cleanedValue.slice(11)}`;
-    }
-    
-    return formattedValue.slice(0, 14);
+    return value
+      .replace(/\D/g, '') // Remove all non-numeric characters
+      .replace(/(\d{3})(\d)/, '$1.$2') // Add dot after the 3rd digit
+      .replace(/(\d{3})(\d)/, '$1.$2') // Add dot after the 6th digit
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2') // Add hyphen before the last 2 digits
+      .slice(0, 14); // Limit to 14 characters (11 digits + 2 dots + 1 hyphen)
   };
+
 
   return (
     <div className="space-y-8">
