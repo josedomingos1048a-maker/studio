@@ -39,7 +39,7 @@ import {
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome deve ter pelo menos 3 caracteres.' }),
-  cpf: z.string().length(11, { message: 'O CPF deve ter 11 dígitos.' }),
+  cpf: z.string().min(11, { message: 'O CPF deve ter pelo menos 11 dígitos.' }),
   benefitType: z.string().min(5, { message: 'Deve ter pelo menos 5 caracteres.' }),
   additionalInfo: z.string().optional(),
 });
