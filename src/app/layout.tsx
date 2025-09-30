@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -50,6 +51,8 @@ export default function RootLayout({
       <head>
           <title>Simplifica INSS</title>
           <meta name="description" content="Um assistente para ajudar na solicitação de benefícios do INSS." />
+          <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/yulacesso.appspot.com/o/Screenshot_20250930-070813_(1)_(1).png?alt=media&token=d2815605-ff33-4c40-a04c-e76350e88ef4" />
+          <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/yulacesso.appspot.com/o/Screenshot_20250930-070813_(1)_(1).png?alt=media&token=d2815605-ff33-4c40-a04c-e76350e88ef4" />
       </head>
       <body
         className={cn(
