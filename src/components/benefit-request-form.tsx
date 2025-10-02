@@ -58,7 +58,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         </div>
         <div className="flex-1 space-y-1.5">
           <CardTitle className="text-lg font-headline">{step.title}</CardTitle>
-          <CardDescription asChild>
+          <CardDescription>
             <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none text-foreground prose-p:my-2 prose-strong:text-foreground">
               {step.description}
             </ReactMarkdown>
