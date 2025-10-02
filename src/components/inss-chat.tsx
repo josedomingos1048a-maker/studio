@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useTransition, useRef, useEffect } from 'react';
+import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Send, User, Bot } from 'lucide-react';
+import { Send } from 'lucide-react';
 
-import { getInssAnswer } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,25 +16,17 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent } from '@/components/ui/card';
-import { Loader } from '@/components/loader';
-import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Loader }s from '@/components/loader';
+
 
 const formSchema = z.object({
-  question: z.string().min(1, { message: 'A pergunta não pode estar vazia.' }),
+  question: z.string().min(10, { message: 'A pergunta deve ter pelo menos 10 caracteres.' }),
 });
-
-type Message = {
-  role: 'user' | 'bot';
-  text: string;
-};
 
 export function InssChat() {
   const [isPending, startTransition] = useTransition();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const { toast } = useToast();
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,114 +35,53 @@ export function InssChat() {
     },
   });
 
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [messages]);
-
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    setMessages((prev) => [...prev, { role: 'user', text: values.question }]);
-    form.reset();
-
-    startTransition(async () => {
-      const result = await getInssAnswer(values);
-      if (result.success && result.data) {
-        setMessages((prev) => [...prev, { role: 'bot', text: result.data as string }]);
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Erro ao obter resposta',
-          description: result.error || 'Ocorreu um erro desconhecido.',
-        });
-        setMessages((prev) => prev.slice(0, -1));
-      }
+    startTransition(() => {
+      const params = new URLSearchParams({ q: values.question });
+      router.push(`/chat/resposta?${params.toString()}`);
     });
   };
 
   return (
-    <Card className="flex flex-col h-[70dvh] md:h-[60vh] w-full">
-       <ScrollArea className="flex-1" ref={scrollAreaRef}>
-        <CardContent className="p-4 space-y-4">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={cn(
-                'flex items-start gap-3',
-                message.role === 'user' ? 'justify-end' : 'justify-start'
-              )}
-            >
-              {message.role === 'bot' && (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
-                  <Bot className="h-5 w-5" />
-                </div>
-              )}
-              <div
-                className={cn(
-                  'max-w-prose rounded-lg p-3 text-sm',
-                  message.role === 'user'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
-                )}
-              >
-                <p>{message.text}</p>
-              </div>
-               {message.role === 'user' && (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground shrink-0">
-                  <User className="h-5 w-5" />
-                </div>
-              )}
-            </div>
-          ))}
-          {isPending && (
-            <div className="flex items-start gap-3 justify-start">
-               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
-                  <Bot className="h-5 w-5" />
-                </div>
-              <div className='bg-muted rounded-lg p-3'>
-                  <Loader />
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </ScrollArea>
-      <div className="border-t p-4 bg-background/95 backdrop-blur-sm">
+    <Card className="w-full">
+       <CardContent className="p-6">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex items-center gap-2"
+            className="space-y-4"
           >
             <FormField
               control={form.control}
               name="question"
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Digite sua pergunta aqui..."
-                      className="resize-none"
+                      placeholder="Digite sua pergunta detalhada sobre o INSS aqui..."
+                      className="min-h-[120px] resize-none"
                       {...field}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          form.handleSubmit(onSubmit)();
-                        }
-                      }}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPending} size="icon">
-              {isPending ? <Loader /> : <Send />}
+            <Button type="submit" disabled={isPending} className="w-full">
+              {isPending ? (
+                  <Loader className="mr-2" />
+              ) : (
+                <>
+                  <Send className="mr-2" />
+                  Enviar Pergunta
+                </>
+              )}
             </Button>
           </form>
         </Form>
-      </div>
+      </CardContent>
+      <CardFooter className="text-xs text-muted-foreground">
+        <p>A IA usará esta pergunta para gerar uma resposta detalhada em uma nova página.</p>
+      </CardFooter>
     </Card>
   );
 }
