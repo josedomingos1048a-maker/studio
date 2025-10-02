@@ -3,8 +3,8 @@
     {
       "id": "benefit-request-hero",
       "description": "Image for the benefit request form hero section",
-      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/yulacesso.appspot.com/o/Screenshot_20250930-070813_(1)_(1).png?alt=media&token=d2815605-ff33-4c40-a04c-e76350e88ef4",
-      "imageHint": "app screenshot"
+      "imageUrl": "https://images.unsplash.com/photo-1696402627658-43f79d8ed156?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uc3RpdHV0aW9uJTIwYm9va3xlbnwwfHx8fDE3NTk0NDc1Njd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "constitution book"
     }
   ]
 }
