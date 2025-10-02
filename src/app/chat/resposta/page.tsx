@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getInssAnswer } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 
 function AnswerDisplay() {
   const searchParams = useSearchParams();
@@ -85,10 +86,11 @@ function AnswerDisplay() {
                         <p>{error}</p>
                     </div>
                 ) : answer ? (
-                    <div
-                        className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-normal"
-                        dangerouslySetInnerHTML={{ __html: answer.replace(/\n/g, '<br />') }}
-                    />
+                    <ReactMarkdown
+                      className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-normal prose-strong:text-foreground"
+                    >
+                      {answer}
+                    </ReactMarkdown>
                 ) : (
                     <div className="space-y-4">
                         <Skeleton className="h-4 w-full" />

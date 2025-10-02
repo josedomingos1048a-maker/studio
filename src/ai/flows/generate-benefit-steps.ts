@@ -36,7 +36,7 @@ const StepSchema = z.object({
   description: z
     .string()
     .describe(
-      'A detailed, user-friendly description of the step, including necessary documents, where to perform the action, and important tips.'
+      'A detailed, user-friendly description of the step, including necessary documents, where to perform the action, and important tips. Use Markdown for formatting, especially bold for important terms.'
     ),
 });
 
@@ -87,11 +87,11 @@ const generateBenefitStepsPrompt = ai.definePrompt({
 Para cada passo, gere um título (title) e uma descrição (description).
 
 O título deve ser uma ação curta e objetiva.
-A descrição deve incluir:
+A descrição deve ser formatada em Markdown e incluir:
 1.  **Ação clara e objetiva a ser tomada.**
-2.  **Documentos necessários** para essa etapa específica.
-3.  **Onde a ação deve ser realizada** (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS).
-4.  **Dicas importantes** ou o que esperar após a conclusão do passo.
+2.  **Documentos necessários** para essa etapa específica. Destaque os nomes dos documentos em negrito.
+3.  **Onde a ação deve ser realizada** (Ex: site Meu INSS, aplicativo Meu INSS, agência do INSS). Destaque os locais em negrito.
+4.  **Dicas importantes** ou o que esperar após a conclusão do passo. Use negrito para termos importantes.
 
 Seja extremamente claro, organizado e use uma linguagem fácil de entender.
 

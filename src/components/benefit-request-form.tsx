@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Check, Copy, ListChecks, FileText, User, FileDigit, Briefcase, Info } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 import { getBenefitSteps } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -57,8 +58,10 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         </div>
         <div className="flex-1 space-y-1.5">
           <CardTitle className="text-lg font-headline">{step.title}</CardTitle>
-          <CardDescription className="whitespace-pre-wrap text-foreground">
-            {step.description}
+          <CardDescription asChild>
+            <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none text-foreground prose-p:my-2 prose-strong:text-foreground">
+              {step.description}
+            </ReactMarkdown>
           </CardDescription>
         </div>
         <TooltipProvider>

@@ -23,7 +23,7 @@ export type AnswerInssQuestionInput = z.infer<
 const AnswerInssQuestionOutputSchema = z.object({
   answer: z
     .string()
-    .describe('The answer to the user’s question, based on INSS rules.'),
+    .describe('The answer to the user’s question, based on INSS rules. The answer should be in Markdown format.'),
 });
 export type AnswerInssQuestionOutput = z.infer<
   typeof AnswerInssQuestionOutputSchema
@@ -65,10 +65,10 @@ const answerInssQuestionPrompt = ai.definePrompt({
 
 Atenção aos detalhes e às diferentes regras para cada categoria de segurado (empregado, doméstico, contribuinte individual, segurado especial, etc.).
 
-Responda à seguinte pergunta de forma completa e didática:
-- Se a pergunta for sobre um benefício, explique o que é, quem tem direito, quais os requisitos (incluindo carência, qualidade de segurado e fato gerador), e como solicitar. Seja extremamente preciso nos requisitos.
-- Se a pergunta for sobre um procedimento, detalhe o passo a passo.
-- Sempre que possível, cite a base legal (ex: Lei 8.213/91, Decreto 3.048/99, Portarias).
+Responda à seguinte pergunta de forma completa e didática, usando o formato Markdown para organizar a informação (listas, negrito, etc.).
+- Se a pergunta for sobre um benefício, explique o que é, quem tem direito, quais os requisitos (incluindo carência, qualidade de segurado e fato gerador), e como solicitar. Seja extremamente preciso nos requisitos. Use **negrito** para destacar os pontos mais importantes.
+- Se a pergunta for sobre um procedimento, detalhe o passo a passo usando uma lista numerada.
+- Sempre que possível, cite a base legal (ex: **Lei 8.213/91**, **Decreto 3.048/99**, etc.).
 - Finalize com uma nota de que as regras podem mudar e que a consulta a um canal oficial do INSS é sempre recomendada.
 
 Pergunta: {{{question}}}
