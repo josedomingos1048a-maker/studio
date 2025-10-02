@@ -35,7 +35,7 @@ export default function Home() {
           </div>
         )}
 
-        <div className="w-full p-4 md:p-8 -mt-16">
+        <div className="w-full p-4 md:p-8">
            <div className="mx-auto grid w-full max-w-4xl gap-8">
             <BenefitRequestForm />
           </div>
