@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader }s from '@/components/loader';
+import { Loader } from '@/components/loader';
 
 
 const formSchema = z.object({
